@@ -1,4 +1,238 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<!-- (conteúdo omitido aqui, pois já está no canvas) -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day Trade NASDAQ 100</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --dark: #0f172a;
+      --light: #f5f7fa;
+      --accent: #3b82f6;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--light);
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark-mode {
+      background: #111827;
+      color: #f3f4f6;
+    }
+    header {
+      background: var(--dark);
+      color: white;
+      padding: 20px 0;
+    }
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .hero {
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      color: white;
+      padding: 40px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .hero button {
+      background: white;
+      color: var(--dark);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .data-card, .card, .tool, .indicator, .session {
+      background: white;
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    body.dark-mode .data-card,
+    body.dark-mode .card,
+    body.dark-mode .tool,
+    body.dark-mode .indicator,
+    body.dark-mode .session {
+      background: #1f2937;
+    }
+    h2 i {
+      margin-right: 10px;
+      color: var(--accent);
+    }
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .toggle-dark {
+      background: none;
+      border: 1px solid white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-chart-line"></i> Day Trade NASDAQ 100</h1>
+      <nav>
+        <ul>
+          <li><a href="#estrategias">Estratégias</a></li>
+          <li><a href="#horarios">Horários</a></li>
+          <li><a href="#indicadores">Indicadores</a></li>
+          <li><a href="#ferramentas">Ferramentas</a></li>
+          <li><a href="#noticias">Notícias</a></li>
+          <li><button class="toggle-dark" onclick="toggleDarkMode()">🌓</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Domine o Day Trading no NASDAQ 100</h2>
+      <p>Receba dados em tempo real e estratégias comprovadas</p>
+      <button>Comece Agora</button>
+    </section>
+
+    <section class="market-data">
+      <div class="data-card">
+        <h3>NASDAQ 100</h3>
+        <div id="nasdaq-price">Carregando preço...</div>
+        <div id="nasdaq-change">...</div>
+      </div>
+      <div class="data-card">
+        <h3>Variação Diária</h3>
+        <div id="daily-range">...</div>
+      </div>
+      <div class="data-card">
+        <h3>Gráfico em Tempo Real</h3>
+        <div class="tv-widget">
+          <iframe src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?symbol=NASDAQ%3ANDX&locale=br#%7B%7D" width="100%" height="220" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="estrategias">
+      <h2><i class="fas fa-chess"></i> Estratégias Comprovadas</h2>
+      <div class="card">
+        <h3>Breakout de Abertura</h3>
+        <p>Rompimentos nos primeiros 30 minutos de pregão</p>
+      </div>
+    </section>
+
+    <section id="horarios">
+      <h2><i class="fas fa-clock"></i> Melhores Horários</h2>
+      <div class="session">
+        <h3>09:30 - 10:30 ET</h3>
+        <p>Alta volatilidade para oportunidades rápidas</p>
+      </div>
+    </section>
+
+    <section id="indicadores">
+      <h2><i class="fas fa-chart-bar"></i> Indicadores Essenciais</h2>
+      <div class="indicator">
+        <h3>VWAP</h3>
+        <p>Volume Weighted Average Price</p>
+      </div>
+    </section>
+
+    <section id="ferramentas">
+      <h2><i class="fas fa-tools"></i> Ferramentas Recomendadas</h2>
+      <div class="tool">
+        <h3>TradingView</h3>
+        <p>Gráficos e análise técnica</p>
+        <iframe src="https://s.tradingview.com/embed-widget/single-quote/?symbol=NASDAQ%3ANDX&locale=pt" width="100%" height="150" frameborder="0" allowtransparency="true"></iframe>
+      </div>
+    </section>
+
+    <section id="noticias">
+      <h2><i class="fas fa-newspaper"></i> Últimas Notícias</h2>
+      <div id="news-feed">Carregando...</div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Day Trade NASDAQ 100 - Todos os direitos reservados</p>
+    <p>Disclaimer: Este site é apenas para fins educacionais.</p>
+  </footer>
+
+  <script>
+    const finnhubKey = 'd0qc619r01qt60ong100d0qc619r01qt60ong10g';
+    const newsKey = 'ac83c0ba97624d488cf443a8836a9617';
+
+    function updatePrice() {
+      fetch(`https://finnhub.io/api/v1/quote?symbol=QQQ&token=${finnhubKey}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.c && data.h && data.l) {
+            document.getElementById('nasdaq-price').innerText = `$${data.c.toFixed(2)}`;
+            const changePercent = (((data.c - data.pc) / data.pc) * 100).toFixed(2);
+            document.getElementById('nasdaq-change').innerText = `${changePercent}%`;
+            document.getElementById('daily-range').innerText = `${data.l.toFixed(2)} - ${data.h.toFixed(2)}`;
+          } else {
+            document.getElementById('nasdaq-price').innerText = 'Erro ao obter dados';
+            document.getElementById('nasdaq-change').innerText = '-';
+            document.getElementById('daily-range').innerText = '-';
+          }
+        })
+        .catch(() => console.log('Erro ao carregar dados do Finnhub'));
+    }
+
+    function updateNews() {
+      fetch(`https://newsapi.org/v2/top-headlines?q=nasdaq&category=business&apiKey=${newsKey}`)
+        .then(res => res.json())
+        .then(data => {
+          const feed = document.getElementById('news-feed');
+          feed.innerHTML = data.articles.slice(0, 3).map(article => `
+            <div>
+              <h4><a href="${article.url}" target="_blank">${article.title}</a></h4>
+              <p>${article.description}</p>
+            </div>
+          `).join('');
+        })
+        .catch(() => console.log('Erro ao carregar notícias'));
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    updatePrice();
+    updateNews();
+    setInterval(updatePrice, 30000);
+  </script>
+</body>
 </html>
