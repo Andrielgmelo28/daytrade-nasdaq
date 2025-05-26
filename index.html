@@ -15,6 +15,8 @@
     #search { margin-bottom: 10px; padding: 8px; width: 100%; max-width: 300px; }
     #graph-container { margin-top: 30px; }
     #lang-toggle { float: right; margin-top: -50px; }
+    #price-data { margin-bottom: 20px; }
+    #price-data div { margin-bottom: 5px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -24,6 +26,11 @@
       <option value="pt-BR">🇧🇷 Português</option>
       <option value="en">🇺🇸 English</option>
     </select>
+    <div id="price-data">
+      <div id="nasdaq-price"></div>
+      <div id="nasdaq-change"></div>
+      <div id="daily-range"></div>
+    </div>
     <input type="text" id="search" placeholder="Buscar ticker..." onkeyup="filterStocks()" data-i18n-placeholder="search">
     <table class="stock-table" id="nasdaq-stocks">
       <thead>
@@ -54,6 +61,21 @@
         search: 'Search ticker...'
       }
     };
+
+    function updatePrice() {
+      fetch(`https://finnhub.io/api/v1/quote?symbol=QQQ&token=${finnhubKey}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.c && data.h && data.l && data.pc) {
+            const preco = `$${data.c.toFixed(2)}`;
+            const changePercent = (((data.c - data.pc) / data.pc) * 100).toFixed(2);
+            document.getElementById('nasdaq-price').innerText = `Preço QQQ: ${preco}`;
+            document.getElementById('nasdaq-change').innerText = `Variação: ${changePercent}%`;
+            document.getElementById('nasdaq-change').style.color = changePercent >= 0 ? 'green' : 'red';
+            document.getElementById('daily-range').innerText = `Faixa diária: ${data.l.toFixed(2)} - ${data.h.toFixed(2)}`;
+          }
+        });
+    }
 
     function updateStocks() {
       const table = document.querySelector('#nasdaq-stocks tbody');
@@ -119,6 +141,7 @@
       });
       const searchInput = document.getElementById('search');
       if (translations[lang]['search']) searchInput.placeholder = translations[lang]['search'];
+      updatePrice();
       updateStocks();
     }
 
@@ -127,7 +150,9 @@
       document.getElementById('lang-toggle').value = lang;
     });
 
+    updatePrice();
     updateStocks();
+    setInterval(updatePrice, 5000);
     setInterval(updateStocks, 5000);
   </script>
 </body>
